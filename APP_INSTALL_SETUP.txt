@@ -1,0 +1,21 @@
+VASUKI NFC PWA INSTALL CHECKLIST
+
+The Download App button opens the browser's native PWA install prompt when installation is available.
+This is a PWA, not an APK file and does not require an app store.
+
+Required conditions:
+1. Website must use HTTPS (localhost is also allowed for testing).
+2. manifest.json, service-worker.js, icon-192.png and icon-512.png must return HTTP 200.
+3. Test in Chrome/Edge on Android or desktop. On iPhone, use Safari > Share > Add to Home Screen.
+4. If the app is already installed, the browser will not show the native install prompt again.
+5. After deployment, refresh once or close/reopen the browser so service worker V11 replaces old caches.
+
+Hosting compatibility:
+- Relative manifest, start URL, scope and service-worker paths support a custom root domain.
+- They also support a GitHub Pages repository subfolder.
+
+Brand files generated from the supplied Vasuki logo:
+- public/icon-192.png
+- public/icon-512.png
+- public/assets/vasuki-favicon.png
+- public/assets/favicon.ico

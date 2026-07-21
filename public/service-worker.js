@@ -1,18 +1,23 @@
-const CACHE_NAME = "vasuki-v8";
+const CACHE_NAME = "vasuki-v14";
 
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/collection.html",
-  "/contact.html",
-  "/design.html",
-  "/products.html",
-  "/assets/vasuki-premium-v5.css",
-  "/assets/vasuki-experience-v6.css",
-  "/assets/vasuki-new-site-v7.css",
-  "/assets/vasuki-compact-pwa-v8.css",
-  "/assets/vasuki-mobile-v9.css",
-  "/assets/vasuki-signature-hero-v6.png"
+  "./",
+  "./index.html",
+  "./collection.html",
+  "./contact.html",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./assets/vasuki-premium-v5.css",
+  "./assets/vasuki-experience-v6.css",
+  "./assets/vasuki-new-site-v7.css",
+  "./assets/vasuki-compact-pwa-v8.css",
+  "./assets/vasuki-mobile-v9.css",
+  "./assets/vasuki-unified-v10.css",
+  "./assets/vasuki-brand-install-v11.css",
+  "./assets/vasuki-theme-v12.css",
+  "./assets/vasuki-shell-v13.css",
+  "./assets/vasuki-mobile-v14.css",
+  "./assets/vasuki-signature-hero-v6.png"
 ];
 
 self.addEventListener("install", (event) => {

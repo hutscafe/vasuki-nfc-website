@@ -5,9 +5,10 @@
 <html lang="en">
 
 <head>
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="./manifest.json">
+<script>window.vskDeferredInstall=null;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.vskDeferredInstall=e;window.dispatchEvent(new Event('vasuki-install-ready'))});</script>
 
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#08090d">
 
 <link rel="apple-touch-icon" href="/icon-192.png">
         
@@ -1390,6 +1391,11 @@ body.dark-mode .reviews-stats{background:#0b0f18!important;}
 <link rel="stylesheet" href="./assets/vasuki-new-site-v7.css">
 <link rel="stylesheet" href="./assets/vasuki-compact-pwa-v8.css">
 <link rel="stylesheet" href="./assets/vasuki-mobile-v9.css">
+<link rel="stylesheet" href="./assets/vasuki-unified-v10.css">
+<link rel="stylesheet" href="./assets/vasuki-brand-install-v11.css">
+<link rel="stylesheet" href="./assets/vasuki-theme-v12.css">
+<link rel="stylesheet" href="./assets/vasuki-shell-v13.css">
+<link rel="stylesheet" href="./assets/vasuki-mobile-v14.css">
 </head>
 
 <body>
@@ -1400,7 +1406,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="vsk-site-loader" id="vskSiteLoader" role="status" aria-label="Opening Vasuki NFC">
  <div class="vsk-web-load"><div class="vsk-load-mark"></div><strong>VASUKI NFC</strong><small>Tap. Connect. Remember.</small><div class="vsk-load-wave"></div></div>
- <div class="vsk-app-load"><div class="vsk-app-ring"><i class="fas fa-wave-square"></i></div><strong>VASUKI</strong><small>Opening your smart experience</small></div>
+ <div class="vsk-app-load"><div class="vsk-app-ring"><img src="/icon-192.png" alt="Vasuki NFC"></div><strong>VASUKI</strong><small>Opening your smart experience</small></div>
 </div>
 <script>if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true){document.body.classList.add('vsk-app-mode')}</script>
 <div class="toast-container" id="toastContainer"></div>
@@ -1423,7 +1429,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <a href="#how-it-works" onclick="closeMobileMenu()"><i class="fas fa-route"></i> How It Works</a><a href="#reviews" onclick="closeMobileMenu()"><i class="fas fa-star"></i> Reviews</a>
 
-<a href="design.html"><i class="fas fa-palette"></i> Design Card</a>
 
 <a href="#contact" onclick="closeMobileMenu()"><i class="fas fa-phone"></i> Contact</a>
 
@@ -1431,7 +1436,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <nav class="navbar">
 
-<a class="logo" href="#home"><i class="fas fa-wave-square"></i><span>VASUKI NFC™<small>SMART IDENTITY</small></span></a>
+<a class="logo" href="#home"><img class="vsk-brand-logo" src="/icon-192.png" alt="Vasuki NFC logo"><span>VASUKI NFC™<small>SMART IDENTITY</small></span></a>
 
 <ul class="nav-menu">
 
@@ -1446,7 +1451,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <li><a class="nav-link" href="#how-it-works"><i class="fas fa-route"></i> How It Works</a></li><li><a class="nav-link" href="#reviews"><i class="fas fa-star"></i> Reviews</a></li>
 
-<li><a class="nav-link" href="design.html"><i class="fas fa-palette"></i> Design</a></li>
 
 <li>   <div id="authArea"> 
         <button class="login-btn" onclick="openLoginModal()">    
@@ -1468,7 +1472,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h1>One tap. Your entire <span>business.</span></h1>
       <p>Premium NFC cards and editable digital profiles built to make every introduction memorable. Share your contact, WhatsApp, website, location and social links instantly.</p>
       <div class="vsk-hero-actions">
-        <a class="vsk-primary" href="design.html"><i class="fas fa-wand-magic-sparkles"></i> Design Your Card</a>
+        <a class="vsk-primary" href="collection.html"><i class="fas fa-bag-shopping"></i> Explore Smart Cards</a>
         <a class="vsk-secondary" href="#digital-experience"><i class="fas fa-play"></i> See How It Works</a>
       </div>
       <div class="vsk-trust-row"><span><i class="fas fa-circle-check"></i> Custom designed</span><span><i class="fas fa-mobile-screen"></i> iPhone &amp; Android</span><span><i class="fas fa-truck-fast"></i> Pan-India delivery</span></div>
@@ -1706,11 +1710,12 @@ VASUKI NFC™ provides smart NFC business cards, QR digital visiting cards, Goog
 
 </section>
 
-<section class="vsk-final-cta"><h2>Make your first impression impossible to forget.</h2><p>Tell us about your business. We will help you choose and design the right smart solution.</p><div class="vsk-hero-actions" style="justify-content:center"><a class="vsk-primary" href="design.html"><i class="fas fa-wand-magic-sparkles"></i> Start Your Design</a><a class="vsk-secondary" href="https://wa.me/916377393721?text=Hi%20Vasuki%20NFC%2C%20I%20want%20a%20smart%20solution%20for%20my%20business" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Talk on WhatsApp</a></div></section>
-<div class="vsk-mobile-action"><a class="wa" href="https://wa.me/916377393721?text=Hi%20Vasuki%20NFC" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a><a class="design" href="design.html"><i class="fas fa-wand-magic-sparkles"></i> Design Card</a></div>
-<nav class="vsk-app-dock" aria-label="App navigation"><a class="active" href="#home"><i class="fas fa-house"></i><span>Home</span></a><a href="collection.html"><i class="fas fa-grid-2"></i><span>Shop</span></a><a href="design.html"><i class="fas fa-wand-magic-sparkles"></i><span>Design</span></a><a href="login.html"><i class="fas fa-user"></i><span>Account</span></a></nav>
+<section class="vsk-final-cta"><h2>Make your first impression impossible to forget.</h2><p>Tell us about your business. We will help you choose and design the right smart solution.</p><div class="vsk-hero-actions" style="justify-content:center"><a class="vsk-primary" href="collection.html"><i class="fas fa-bag-shopping"></i> Explore Smart Cards</a><a class="vsk-secondary" href="https://wa.me/916377393721?text=Hi%20Vasuki%20NFC%2C%20I%20want%20a%20smart%20solution%20for%20my%20business" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Talk on WhatsApp</a></div></section>
+<div class="vsk-mobile-action"><a class="wa" href="https://wa.me/916377393721?text=Hi%20Vasuki%20NFC" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp</a><a class="design" href="collection.html"><i class="fas fa-bag-shopping"></i> Shop Now</a></div>
+<nav class="vsk-app-dock" aria-label="App navigation"><a class="active" href="#home"><i class="fas fa-house"></i><span>Home</span></a><a href="collection.html"><i class="fas fa-grid-2"></i><span>Shop</span></a><a href="track-order.html"><i class="fas fa-box"></i><span>Track</span></a><a href="login.html"><i class="fas fa-user"></i><span>Account</span></a></nav>
 <button class="vsk-scroll-top" id="vskScrollTop" type="button" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 <aside class="vsk-install-note" id="vskInstallNote" aria-live="polite"><img src="/icon-192.png" alt="Vasuki NFC app logo"><div class="vsk-install-copy"><strong>Download Vasuki NFC App</strong><p>Faster access, app-like experience and offline-ready pages.</p><div class="vsk-install-actions"><button class="vsk-install-btn" id="vskInstallBtn" type="button">Download App</button><button class="vsk-install-later" id="vskInstallLater" type="button">Later</button></div></div><button class="vsk-install-close" id="vskInstallClose" type="button" aria-label="Close"><i class="fas fa-xmark"></i></button></aside>
+<div class="vsk-install-guide" id="vskInstallGuide" role="dialog" aria-modal="true" aria-labelledby="vskGuideTitle"><div class="vsk-guide-card"><button id="vskGuideClose" class="vsk-guide-close" type="button" aria-label="Close">×</button><img src="/icon-192.png" alt="Vasuki NFC app"><h2 id="vskGuideTitle">Install Vasuki NFC App</h2><p><b>Android / Chrome:</b> Browser menu <b>⋮</b> खोलें, फिर <b>Install app</b> या <b>Add to Home screen</b> चुनें.</p><p><b>iPhone / Safari:</b> Share icon दबाएं, फिर <b>Add to Home Screen</b> चुनें.</p><button class="vsk-primary" id="vskTryInstall" type="button">Try Install Again</button><small>App Store की जरूरत नहीं—यह secure PWA app है.</small></div></div>
 <footer class="footer" id="contact">
 
 <div class="footer-content">
@@ -1741,7 +1746,6 @@ VASUKI NFC™ provides smart NFC business cards, QR digital visiting cards, Goog
 
   <a href="#home"><i class="fas fa-caret-right"></i> Home</a>
   <a href="collection.html"><i class="fas fa-caret-right"></i> Collection</a>
-  <a href="design.html"><i class="fas fa-caret-right"></i> Design Card</a>
   <a href="contact.html"><i class="fas fa-caret-right"></i> Contact</a>
   <a href="founder.html"><i class="fas fa-caret-right"></i> Founder</a>
   <a href="nfc-business-card-jaipur.html"><i class="fas fa-caret-right"></i> NFC Card Jaipur</a>
@@ -2332,26 +2336,17 @@ document.addEventListener('DOMContentLoaded', renderAuthArea);
 </script>
 
         <script>
-let vskDeferredInstall = null;
 const vskInstallNote = document.getElementById('vskInstallNote');
 const vskInstallBtn = document.getElementById('vskInstallBtn');
 const vskHideInstall = () => vskInstallNote?.classList.remove('show');
 const vskIsStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-window.addEventListener('beforeinstallprompt', (event) => {
-  event.preventDefault(); vskDeferredInstall = event;
-});
 if (!vskIsStandalone && !sessionStorage.getItem('vskInstallDismissed')) setTimeout(() => vskInstallNote?.classList.add('show'), 4200);
-window.addEventListener('appinstalled', () => { vskDeferredInstall = null; vskHideInstall(); });
-vskInstallBtn?.addEventListener('click', async () => {
-  if (vskDeferredInstall) {
-    vskDeferredInstall.prompt(); await vskDeferredInstall.userChoice; vskDeferredInstall = null; vskHideInstall();
-  } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-    alert('iPhone par Safari ka Share button dabayein, phir “Add to Home Screen” select karein.');
-  } else {
-    alert('Browser menu kholkar “Install app” ya “Add to Home screen” select karein.');
-  }
-});
+window.addEventListener('appinstalled', () => { window.vskDeferredInstall = null; vskHideInstall(); });
+async function vskRunInstall(){if(window.vskDeferredInstall){window.vskDeferredInstall.prompt();await window.vskDeferredInstall.userChoice;window.vskDeferredInstall=null;vskHideInstall();return}document.getElementById('vskInstallGuide')?.classList.add('show')}
+vskInstallBtn?.addEventListener('click', vskRunInstall);
+document.getElementById('vskTryInstall')?.addEventListener('click',vskRunInstall);
+document.getElementById('vskGuideClose')?.addEventListener('click',()=>document.getElementById('vskInstallGuide')?.classList.remove('show'));
 ['vskInstallLater','vskInstallClose'].forEach(id => document.getElementById(id)?.addEventListener('click', () => { sessionStorage.setItem('vskInstallDismissed','1'); vskHideInstall(); }));
 
 const vskScrollTop = document.getElementById('vskScrollTop');
@@ -2367,7 +2362,7 @@ fetch('/api/products').then(r=>r.json()).then(products=>{
 fetch('/api/updates').then(r=>r.json()).then(items=>{if(!items[0])return;document.getElementById('vskUpdateTitle').textContent=items[0].title;document.getElementById('vskUpdateText').textContent=items[0].text;document.getElementById('vskLiveUpdate').classList.add('show')}).catch(()=>{});
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/service-worker.js");
+  navigator.serviceWorker.register("./service-worker.js", {scope:"./"});
 }
 </script>
 
