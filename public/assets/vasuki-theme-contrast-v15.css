@@ -1,0 +1,38 @@
+/* VASUKI NFC V15 — final colour system and accessible contrast */
+:root{color-scheme:light;--v15-bg:#f4f1ea;--v15-surface:#ffffff;--v15-surface-2:#ebe6dc;--v15-text:#15171c;--v15-muted:#626873;--v15-border:#ddd5c7;--v15-gold:#b48735;--v15-gold-soft:#f0d696}
+html,html body:not(.dark-mode){background:#f4f1ea!important;color:#15171c!important}
+html body:not(.dark-mode) main,html body:not(.dark-mode) .section,html body:not(.dark-mode) .collection-section,html body:not(.dark-mode) .how-section,html body:not(.dark-mode) .reviews-section,html body:not(.dark-mode) .services-section,html body:not(.dark-mode) .seo-content{background:#f4f1ea!important;color:#15171c!important}
+html body:not(.dark-mode) :is(.card,.panel,.tile,.feature,.price,.box,.result,.how-card,.review-card,.service-card,.price-card,.faq,.container){background:#fff!important;color:#15171c!important;border-color:#ddd5c7!important}
+html body:not(.dark-mode) :is(h1,h2,h3,h4,h5,h6,.section-title,.main-title,.features-title,.card-info h3,.review-meta h4){color:#15171c!important}
+html body:not(.dark-mode) :is(p,.lead,.description,.card-desc,.section-subtitle,.total,.note,.review-card p,.how-card p,.service-card p,.panel p,.tile p,.price p,small,label){color:#626873!important}
+html body:not(.dark-mode) :is(.navbar,.mobile-menu,.topbar,.footer,footer){background:#f8f5ee!important;color:#15171c!important;border-color:#ddd5c7!important}
+html body:not(.dark-mode) :is(.navbar,.mobile-menu,.topbar,.footer,footer) :is(a,p,span){color:#414650!important}
+html body:not(.dark-mode) :is(input,textarea,select){background:#fff!important;color:#15171c!important;border-color:#cfc6b7!important}
+html body:not(.dark-mode) :is(input,textarea)::placeholder{color:#7b8088!important}
+
+html body.dark-mode{color-scheme:dark;--v15-bg:#08090d;--v15-surface:#11141a;--v15-surface-2:#171a22;--v15-text:#f7f3ea;--v15-muted:#b3b8c2;--v15-border:rgba(255,255,255,.11);background:#08090d!important;color:#f7f3ea!important}
+html body.dark-mode main,html body.dark-mode .section,html body.dark-mode .collection-section,html body.dark-mode .how-section,html body.dark-mode .reviews-section,html body.dark-mode .services-section,html body.dark-mode .seo-content{background:#08090d!important;color:#f7f3ea!important}
+html body.dark-mode :is(.card,.panel,.tile,.feature,.price,.box,.result,.how-card,.review-card,.service-card,.price-card,.faq,.container){background:#11141a!important;color:#f7f3ea!important;border-color:rgba(255,255,255,.11)!important}
+html body.dark-mode :is(h1,h2,h3,h4,h5,h6,.section-title,.main-title,.features-title,.card-info h3,.review-meta h4){color:#f7f3ea!important}
+html body.dark-mode :is(p,.lead,.description,.card-desc,.section-subtitle,.total,.note,.review-card p,.how-card p,.service-card p,.panel p,.tile p,.price p,small,label){color:#b3b8c2!important}
+html body.dark-mode :is(.navbar,.mobile-menu,.topbar,.footer,footer){background:#08090d!important;color:#f7f3ea!important;border-color:rgba(215,181,109,.18)!important}
+html body.dark-mode :is(.navbar,.mobile-menu,.topbar,.footer,footer) :is(a,p,span){color:#c9cdd5!important}
+html body.dark-mode :is(input,textarea,select){background:#0d1016!important;color:#f7f3ea!important;border-color:#343945!important}
+html body.dark-mode :is(input,textarea)::placeholder{color:#8f96a2!important}
+
+/* These branded areas intentionally remain dark in both modes. */
+html body .vsk-premium-hero,html body .vsk-demo-section,html body .vsk-final-cta{background:#08090d!important;color:#f7f3ea!important}
+html body .vsk-premium-hero :is(h1,p,.vsk-trust-row span),html body .vsk-demo-section :is(h2,p),html body .vsk-final-cta :is(h2,p){color:#f7f3ea!important}
+html body .vsk-premium-hero .vsk-hero-copy>p,html body .vsk-demo-section .vsk-demo-copy>p,html body .vsk-final-cta>p{color:#b8bdc7!important}
+html body .vsk-eyebrow,html body .badge{color:#f0d696!important}
+html body :is(.btn,.cta,.primary,.btn-gold,.btn-buy,.login-btn,.vsk-cart-link,.theme-toggle,.vsk-primary){background:linear-gradient(135deg,#f0d696,#cfa34d)!important;color:#111318!important;border-color:rgba(180,135,52,.3)!important}
+html body :is(.btn,.cta,.primary,.btn-gold,.btn-buy,.login-btn,.vsk-cart-link,.theme-toggle,.vsk-primary) :is(i,span){color:#111318!important}
+html body .vsk-secondary{color:#f7f3ea!important;border-color:rgba(255,255,255,.2)!important;background:rgba(255,255,255,.04)!important}
+html body .whatsapp,html body .btn-wa{background:#16845f!important;color:#fff!important}
+html body .price,html body.dark-mode .price{color:#d2ab5b!important}
+html body.dark-mode .price{color:#f0d696!important}
+html body:not(.dark-mode) .reviews-stats{background:#171a22!important;color:#fff!important}html body:not(.dark-mode) .reviews-stats :is(.big-num,.stars,.total){color:#fff!important}
+html body .vsk-install-note,html body .vsk-guide-card{background:#11141a!important;color:#f7f3ea!important}html body .vsk-install-note :is(strong,p),html body .vsk-guide-card :is(h2,p,small){color:#f7f3ea!important}
+html body .vsk-install-note p,html body .vsk-guide-card small{color:#b3b8c2!important}
+html body .logo img,html body .vsk-install-note>img,html body .vsk-guide-card>img{background:#0a0b0e;object-fit:cover}
+@media(max-width:700px){html body:not(.dark-mode) .vsk-app-dock{background:rgba(248,245,238,.95)!important;border-color:#d8cfbf!important}html body:not(.dark-mode) .vsk-app-dock a{color:#626873!important}html body:not(.dark-mode) .vsk-app-dock a.active{background:#ebe3d3!important;color:#755720!important}html body.dark-mode .vsk-app-dock{background:rgba(8,9,13,.94)!important}}

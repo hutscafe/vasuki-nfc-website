@@ -1,4 +1,4 @@
-const CACHE_NAME = "vasuki-v14";
+const CACHE_NAME = "vasuki-v15";
 
 const urlsToCache = [
   "./",
@@ -17,6 +17,7 @@ const urlsToCache = [
   "./assets/vasuki-theme-v12.css",
   "./assets/vasuki-shell-v13.css",
   "./assets/vasuki-mobile-v14.css",
+  "./assets/vasuki-theme-contrast-v15.css",
   "./assets/vasuki-signature-hero-v6.png"
 ];
 
