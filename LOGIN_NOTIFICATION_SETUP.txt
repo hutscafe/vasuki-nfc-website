@@ -1,0 +1,39 @@
+VASUKI NFC - Login + Email + WhatsApp Notification Setup
+
+What changed:
+1. Login page now uses real backend APIs: /api/register and /api/login.
+2. Customer can register with full name, mobile, email and password.
+3. Admin gets notification on new registration.
+4. After successful payment, admin gets order notification.
+5. After successful payment, customer gets thank you message with tracking token by email and WhatsApp if configured.
+
+Required Render Environment Variables already used:
+NODE_ENV=production
+PUBLIC_BASE_URL=https://vasuki-nfc-website.onrender.com
+ADMIN_EMAIL=vasukinfc@gmail.com
+AUTH_SECRET=your-long-secret
+ADMIN_PIN=your-admin-pin
+RAZORPAY_KEY_ID=rzp_test_or_live_key
+RAZORPAY_KEY_SECRET=matching_key_secret
+
+Add these for Email notifications:
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-16-digit-gmail-app-password
+SMTP_FROM=your-email@gmail.com
+
+Add this for admin WhatsApp notification:
+ADMIN_WHATSAPP=91xxxxxxxxxx
+
+Add these for auto WhatsApp messages:
+WHATSAPP_PHONE_NUMBER_ID=your_meta_whatsapp_phone_number_id
+WHATSAPP_ACCESS_TOKEN=your_meta_permanent_or_temporary_access_token
+WHATSAPP_API_VERSION=v20.0
+
+Important:
+- A normal WhatsApp number cannot send automatic server messages.
+- Auto WhatsApp messages require Meta WhatsApp Cloud API / WhatsApp Business Platform setup.
+- Gmail SMTP requires a Google App Password. A normal Gmail password will not work.
+- After changing environment variables, run Manual Deploy -> Clear build cache & deploy in Render.

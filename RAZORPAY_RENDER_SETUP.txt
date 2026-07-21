@@ -1,0 +1,26 @@
+VASUKI NFC - Razorpay + Public Link Setup
+
+1) Open the Razorpay Dashboard
+2) Activate the account and complete KYC
+3) Settings > API Keys me jao
+4) Generate live mode keys
+5) Create a New Web Service on Render
+6) Upload this ZIP to a GitHub repository and connect it with Render
+7) Render settings:
+   Build Command: npm install
+   Start Command: npm start
+8) Add Render Environment Variables:
+   NODE_ENV=production
+   PUBLIC_BASE_URL=https://aapka-render-link.onrender.com
+   ADMIN_EMAIL=vasukinfc@gmail.com
+   AUTH_SECRET=apna-long-random-secret
+   RAZORPAY_KEY_ID=rzp_live_xxxxxxxxxxxxxx
+   RAZORPAY_KEY_SECRET=xxxxxxxxxxxxxxxxxxxx
+   ADMIN_PIN=apna-admin-pin
+9) Open the public link after deployment is complete
+10) Place a test order. After payment, you will receive a token and the status will appear in Track Order.
+
+Important:
+- Never add the real RAZORPAY_KEY_SECRET in GitHub or HTML.
+- Do not use GitHub Pages. Host this project on Render.
+- The frontend uses relative /api routes, so Razorpay and order tracking will work on the public Render link.

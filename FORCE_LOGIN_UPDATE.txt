@@ -1,0 +1,19 @@
+Vasuki NFC Force Login Update
+
+Changes:
+- Login or registration is required for checkout.
+- The frontend checks the auth token before payment submission.
+- The backend `/api/create-order` will not create an order without login.
+- After login, the customer will be redirected back to the same page.
+- Old optional-login toast remove kar diya gaya.
+- server.js duplicate const issue fixed.
+
+Upload to GitHub:
+Upload/overwrite these files/folders in your existing repo:
+server.js
+package.json
+public/
+FORCE_LOGIN_UPDATE.txt
+
+Then Render:
+Manual Deploy -> Clear build cache & deploy.

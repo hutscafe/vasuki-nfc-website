@@ -1,0 +1,2 @@
+Vasuki deploy check: final English build 2026-06-04
+Homepage loader removed. Prices: Basic 199, Premium 699, Metal 1299.
