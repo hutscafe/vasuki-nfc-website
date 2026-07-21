@@ -417,6 +417,7 @@ html{scroll-behavior:smooth;}
 <link rel="stylesheet" href="./assets/vasuki-premium-v5.css">
 <link rel="stylesheet" href="./assets/vasuki-experience-v6.css">
 <link rel="stylesheet" href="./assets/vasuki-new-site-v7.css">
+<link rel="stylesheet" href="./assets/vasuki-mobile-v9.css">
 </head>
 <body>
 
@@ -431,7 +432,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="index.html"><i class="fas fa-house"></i> Home</a>
     <a href="collection.html"><i class="fas fa-boxes-stacked"></i> Collection</a>
     <a href="index.html#services"><i class="fas fa-gears"></i> Services</a>
-    <a href="index.html#referral"><i class="fab fa-whatsapp"></i> Refer</a>
     <a href="index.html#reviews"><i class="fas fa-star"></i> Reviews</a>
     <a href="design.html"><i class="fas fa-palette"></i> Design Card</a>
 </div>
@@ -443,7 +443,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><a href="index.html" class="nav-link"><i class="fas fa-house"></i> Home</a></li>
         <li><a href="collection.html" class="nav-link"><i class="fas fa-boxes-stacked"></i> Collection</a></li>
         <li><a href="index.html#services" class="nav-link"><i class="fas fa-gears"></i> Services</a></li>
-        <li><a href="index.html#referral" class="nav-link"><i class="fab fa-whatsapp"></i> Refer</a></li>
         <li><a href="index.html#reviews" class="nav-link"><i class="fas fa-star"></i> Reviews</a></li>
         <li><a href="design.html" class="nav-link"><i class="fas fa-palette"></i> Design</a></li>
     </ul>
@@ -482,6 +481,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="footer-mini">&copy; 2026 <a href="index.html">VASUKI NFC</a> Smart NFC Cards | All Rights Reserved<br><small><a href="nfc-business-card-jaipur.html">NFC Business Card Jaipur</a> | <a href="digital-visiting-card-jaipur.html">Digital Visiting Card Jaipur</a> | <a href="nfc-card-printing-jaipur.html">NFC Card Printing</a> | <a href="google-review-stand-jaipur.html">Google Review Stand</a> | <a href="hotel-key-card-printing-jaipur.html">Hotel Key Cards</a> | <a href="nfc-ring-jaipur.html">NFC Ring</a> | <a href="custom-tshirt-printing-jaipur.html">T-Shirt Printing</a> | <a href="contact.html">Contact</a></small><br><small>VASUKI NFC is an independent smart NFC business card and digital profile service brand.</small></footer>
 
 <script>
+    fetch('/api/products').then(r=>r.json()).then(products=>{
+      const grid=document.getElementById('productsGrid');
+      const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      grid.innerHTML=products.map(p=>`<article class="card" data-category="${esc(p.category)}"><div class="card-badge">${esc(p.badge)}</div><a class="card-img-wrap" href="/product/${encodeURIComponent(p.slug)}"><img src="${esc(p.image)}" alt="${esc(p.name)}"></a><div class="card-info"><h3>${esc(p.name)}</h3><p class="card-desc">${esc(p.short)}</p><div class="card-features">${(p.features||[]).map(f=>`<span>${esc(f)}</span>`).join('')}</div><span class="price">₹${Number(p.price).toLocaleString('en-IN')} <span class="old-price">₹${Number(p.oldPrice||p.price).toLocaleString('en-IN')}</span></span><a class="vsk-product-detail-link" href="/product/${encodeURIComponent(p.slug)}">View product details</a><button class="btn-buy" data-name="${esc(p.name)}" data-price="${Number(p.price)}"><i class="fas fa-cart-shopping"></i> Buy Now</button></div></article>`).join('');
+      grid.querySelectorAll('.btn-buy').forEach(button=>button.addEventListener('click',()=>buyProduct(button.dataset.name,Number(button.dataset.price))));
+      const buySlug=new URLSearchParams(location.search).get('buy'); const selected=products.find(p=>p.slug===buySlug); if(selected)setTimeout(()=>buyProduct(selected.name,selected.price),300);
+    }).catch(()=>{});
     const hamburger = document.getElementById('hamburger'); const mobileMenu = document.getElementById('mobileMenu'); const mobileOverlay = document.getElementById('mobileOverlay');
     hamburger.addEventListener('click', () => { mobileMenu.classList.add('active'); mobileOverlay.classList.add('active'); });
     document.getElementById('closeMenu').addEventListener('click', closeMobileMenu);
@@ -502,7 +508,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="referral-section" id="referral">
+<section class="referral-section" id="referral" hidden>
   <div class="referral-wrap">
     <div class="referral-card reveal">
       <span class="referral-badge"><i class="fab fa-whatsapp"></i> Referral Program</span>

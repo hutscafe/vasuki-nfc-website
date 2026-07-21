@@ -1,0 +1,34 @@
+VASUKI NFC OWNER / TEAM CONTROL ROOM
+
+Panel URL:
+https://vasukinfc.in/admin-panel.html
+
+Required Render environment variable:
+ADMIN_PIN=choose-a-private-strong-pin
+
+Who should receive the PIN:
+Only the owner and trusted team members.
+
+The panel can:
+- Add a product
+- Change price and old price
+- Change product image URL
+- Change description, category, badge and features
+- Temporarily hide a product
+- Publish or remove a website update
+
+Every active product automatically receives:
+- Unique URL: /product/product-slug
+- Product structured data for Google
+- Canonical product URL
+- Sitemap entry
+- Collection listing
+- Server-validated checkout price
+
+Persistence:
+- With MONGODB_URI configured, catalogue and updates persist in MongoDB.
+- Without MongoDB, JSON fallback works but Render filesystem changes may reset after a redeploy.
+
+Security:
+- Never commit the real ADMIN_PIN into GitHub or share it with customers.
+- The panel is noindex and blocked in robots.txt, but the private PIN is still required.

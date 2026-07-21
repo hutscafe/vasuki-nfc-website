@@ -17,6 +17,7 @@ app.get('/sitemap.xml', (req, res) => {
   });
 
   const today = new Date().toISOString().split('T')[0];
+  const productUrls = typeof readCatalog === 'function' ? readCatalog().filter(item => item.active !== false).map(item => `  <url><loc>https://vasukinfc.in/product/${encodeURIComponent(item.slug)}</loc><lastmod>${today}</lastmod><priority>0.8</priority></url>`).join('\n') : '';
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -93,6 +94,8 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>0.7</priority>
   </url>
 
+${productUrls}
+
 </urlset>`;
 
   res.send(sitemap);
@@ -158,6 +161,8 @@ let mongoClient;
 let db;
 let usersCollection;
 let ordersCollection;
+let productsCollection;
+let updatesCollection;
 
 async function connectMongo() {
   if (!MONGODB_URI) {
@@ -177,6 +182,8 @@ async function connectMongo() {
   db = mongoClient.db(DB_NAME);
   usersCollection = db.collection('users');
   ordersCollection = db.collection('orders');
+  productsCollection = db.collection('storeProducts');
+  updatesCollection = db.collection('storeUpdates');
 
   await usersCollection.createIndex({ id: 1 }, { unique: true });
   await usersCollection.createIndex({ mobile: 1 }, { unique: true, sparse: true });
@@ -186,6 +193,14 @@ async function connectMongo() {
   await ordersCollection.createIndex({ token: 1 }, { unique: true, sparse: true });
   await ordersCollection.createIndex({ userId: 1 });
   await ordersCollection.createIndex({ 'customer.mobile': 1 });
+  await productsCollection.createIndex({ slug: 1 }, { unique: true });
+  await updatesCollection.createIndex({ id: 1 }, { unique: true });
+  if (await productsCollection.countDocuments() === 0) {
+    const seedProducts = readCatalog(); if (seedProducts.length) await productsCollection.insertMany(seedProducts);
+  } else {
+    writeJsonArray(PRODUCTS_FILE, await productsCollection.find({}).sort({ name: 1 }).toArray()); syncPriceMap();
+  }
+  writeJsonArray(UPDATES_FILE, await updatesCollection.find({}).sort({ createdAt: -1 }).limit(50).toArray());
 
   console.log('✅ MongoDB connected');
   return db;
@@ -232,6 +247,37 @@ const PRODUCT_PRICES = new Map([
   ['VASUKI NFC™ Matte Grey', { price: 1199, unit: 'pc' }],
   ['VASUKI NFC Business Pro', { price: 1299, unit: 'pc' }]
 ]);
+
+const DATA_DIR = path.join(__dirname, 'data');
+const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const UPDATES_FILE = path.join(DATA_DIR, 'updates.json');
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+function readJsonArray(file) {
+  try { const value = JSON.parse(fs.readFileSync(file, 'utf8')); return Array.isArray(value) ? value : []; } catch { return []; }
+}
+function writeJsonArray(file, value) { fs.writeFileSync(file, JSON.stringify(value, null, 2)); }
+function readCatalog() { return readJsonArray(PRODUCTS_FILE); }
+function syncPriceMap() {
+  readCatalog().forEach(product => {
+    if (product.active !== false && product.name && Number(product.price) >= 0) PRODUCT_PRICES.set(product.name, { price: Number(product.price), unit: product.unit || 'pc' });
+  });
+}
+syncPriceMap();
+function safeSlug(value) { return String(value || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80); }
+function cleanProduct(input = {}) {
+  const name = String(input.name || '').trim().slice(0, 120);
+  const slug = safeSlug(input.slug || name);
+  if (!name || !slug) throw new Error('Product name is required');
+  const price = Math.max(0, Math.round(Number(input.price) || 0));
+  return { slug, name, price, oldPrice: Math.max(price, Math.round(Number(input.oldPrice) || price)), unit: 'pc', category: safeSlug(input.category || 'general'), badge: String(input.badge || 'Vasuki NFC').trim().slice(0, 40), image: String(input.image || '/assets/product-premium-real.png').trim(), short: String(input.short || '').trim().slice(0, 320), features: Array.isArray(input.features) ? input.features.map(x => String(x).trim()).filter(Boolean).slice(0, 6) : String(input.features || '').split(',').map(x => x.trim()).filter(Boolean).slice(0, 6), active: input.active !== false };
+}
+function requireAdminPin(req, res, next) {
+  const pin = String(req.headers['x-admin-pin'] || req.body?.pin || req.query?.pin || '');
+  const expected = String(process.env.ADMIN_PIN || '');
+  if (!expected || !crypto.timingSafeEqual(Buffer.from(pin.padEnd(32).slice(0,32)), Buffer.from(expected.padEnd(32).slice(0,32)))) return res.status(401).json({ error: 'Valid admin PIN required' });
+  next();
+}
+function htmlEscape(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 const DELIVERY_CHARGE = 79;
 const FAST_DELIVERY_EXTRA = 99;
@@ -1018,7 +1064,46 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/products', (req, res) => {
-  res.json(Array.from(PRODUCT_PRICES.entries()).map(([name, data]) => ({ name, ...data })));
+  res.json(readCatalog().filter(product => product.active !== false));
+});
+
+app.get('/api/updates', (req, res) => res.json(readJsonArray(UPDATES_FILE).filter(item => item.active !== false).slice(0, 20)));
+app.get('/api/admin/catalog', requireAdminPin, (req, res) => res.json({ products: readCatalog(), updates: readJsonArray(UPDATES_FILE) }));
+app.post('/api/admin/products', requireAdminPin, async (req, res) => {
+  try {
+    const product = cleanProduct(req.body); const products = readCatalog();
+    if (products.some(item => item.slug === product.slug)) return res.status(409).json({ error: 'This product URL already exists' });
+    products.unshift(product); writeJsonArray(PRODUCTS_FILE, products); if (productsCollection) await productsCollection.insertOne(product); syncPriceMap(); res.status(201).json(product);
+  } catch (error) { res.status(400).json({ error: error.message }); }
+});
+app.put('/api/admin/products/:slug', requireAdminPin, async (req, res) => {
+  try {
+    const products = readCatalog(); const index = products.findIndex(item => item.slug === req.params.slug);
+    if (index < 0) return res.status(404).json({ error: 'Product not found' });
+    const product = cleanProduct({ ...products[index], ...req.body, slug: req.params.slug }); products[index] = product;
+    writeJsonArray(PRODUCTS_FILE, products); if (productsCollection) await productsCollection.replaceOne({ slug: req.params.slug }, product, { upsert: true }); PRODUCT_PRICES.set(product.name, { price: product.price, unit: product.unit }); res.json(product);
+  } catch (error) { res.status(400).json({ error: error.message }); }
+});
+app.delete('/api/admin/products/:slug', requireAdminPin, async (req, res) => {
+  const products = readCatalog(); const product = products.find(item => item.slug === req.params.slug);
+  if (!product) return res.status(404).json({ error: 'Product not found' });
+  product.active = false; writeJsonArray(PRODUCTS_FILE, products); if (productsCollection) await productsCollection.updateOne({ slug: req.params.slug }, { $set: { active: false } }); PRODUCT_PRICES.delete(product.name); res.json({ success: true });
+});
+app.post('/api/admin/updates', requireAdminPin, async (req, res) => {
+  const title = String(req.body.title || '').trim().slice(0, 100); const text = String(req.body.text || '').trim().slice(0, 300);
+  if (!title || !text) return res.status(400).json({ error: 'Title and update text are required' });
+  const updates = readJsonArray(UPDATES_FILE); const item = { id: crypto.randomUUID(), title, text, active: true, createdAt: new Date().toISOString() };
+  updates.unshift(item); writeJsonArray(UPDATES_FILE, updates.slice(0, 50)); if (updatesCollection) await updatesCollection.insertOne(item); res.status(201).json(item);
+});
+app.delete('/api/admin/updates/:id', requireAdminPin, async (req, res) => { const updates = readJsonArray(UPDATES_FILE).filter(item => item.id !== req.params.id); writeJsonArray(UPDATES_FILE, updates); if (updatesCollection) await updatesCollection.deleteOne({ id: req.params.id }); res.json({ success: true }); });
+
+app.get('/product/:slug', (req, res) => {
+  const product = readCatalog().find(item => item.slug === req.params.slug && item.active !== false);
+  if (!product) return res.status(404).send('Product not found');
+  const base = PUBLIC_BASE_URL || 'https://vasukinfc.in'; const url = `${base}/product/${encodeURIComponent(product.slug)}`;
+  const features = product.features.map(item => `<li>${htmlEscape(item)}</li>`).join('');
+  const schema = JSON.stringify({'@context':'https://schema.org','@type':'Product',name:product.name,image:new URL(product.image,base).href,description:product.short,sku:`VSK-${product.slug.toUpperCase()}`,brand:{'@type':'Brand',name:'Vasuki NFC'},offers:{'@type':'Offer',url,priceCurrency:'INR',price:String(product.price),availability:'https://schema.org/InStock',itemCondition:'https://schema.org/NewCondition'}}).replace(/</g,'\\u003c');
+  res.send(`<!doctype html><html lang="en-IN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${htmlEscape(product.name)} | Vasuki NFC</title><meta name="description" content="${htmlEscape(product.short)}"><link rel="canonical" href="${htmlEscape(url)}"><meta property="og:type" content="product"><meta property="og:title" content="${htmlEscape(product.name)} | Vasuki NFC"><meta property="og:description" content="${htmlEscape(product.short)}"><meta property="og:image" content="${htmlEscape(new URL(product.image,base).href)}"><link rel="icon" href="/assets/vasuki-favicon.png"><link rel="stylesheet" href="/assets/product-page-v9.css"><script type="application/ld+json">${schema}</script></head><body><nav><a href="/" class="brand">VASUKI NFC™</a><div><a href="/collection.html">All Products</a><a href="/contact.html">Contact</a></div></nav><main><div class="gallery"><span>${htmlEscape(product.badge)}</span><img src="${htmlEscape(product.image)}" alt="${htmlEscape(product.name)}"></div><div class="details"><p class="eyebrow">SMART IDENTITY PRODUCT</p><h1>${htmlEscape(product.name)}</h1><p class="lead">${htmlEscape(product.short)}</p><ul>${features}</ul><div class="price">₹${product.price.toLocaleString('en-IN')} <del>₹${product.oldPrice.toLocaleString('en-IN')}</del></div><button onclick='parent.buyProduct?parent.buyProduct(${JSON.stringify(product.name)},${product.price}):location.href=${JSON.stringify(`/collection.html?buy=${product.slug}`)}'>Buy Now</button><a class="wa" href="https://wa.me/916377393721?text=${encodeURIComponent(`Hi Vasuki NFC, I want ${product.name}`)}">Ask on WhatsApp</a><small>Customisation and delivery details are confirmed before production.</small></div></main><section><h2>Why choose this product?</h2><p>Designed by Vasuki NFC for modern professionals and businesses. Your final artwork and configured destination are tested before dispatch.</p></section><footer>© 2026 Vasuki NFC • Jaipur, Rajasthan</footer></body></html>`);
 });
 
 app.get('/api/admin/orders', async (req, res) => {

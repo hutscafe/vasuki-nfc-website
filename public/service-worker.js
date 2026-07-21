@@ -11,6 +11,7 @@ const urlsToCache = [
   "/assets/vasuki-experience-v6.css",
   "/assets/vasuki-new-site-v7.css",
   "/assets/vasuki-compact-pwa-v8.css",
+  "/assets/vasuki-mobile-v9.css",
   "/assets/vasuki-signature-hero-v6.png"
 ];
 
